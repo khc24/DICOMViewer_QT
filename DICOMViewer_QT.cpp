@@ -5,6 +5,7 @@
 #include "DICOMViewer_QT.h"
 #include <QApplication>
 #include "ChildView.h" 
+#include "MainWindow.h"
 #include <vtkSmartPointer.h>
 #include <vtkOutputWindow.h>
 #include <vtkFileOutputWindow.h>
@@ -32,7 +33,7 @@ int main(int argc, char* argv[])
 
     // DisableVTKOutput();  // 필요시 VTK 로그를 파일로 출력
 
-    CChildView window;
+    MainWindow window;
     window.resize(800, 600);
     window.show();
 

@@ -5,8 +5,8 @@
 
 CDlgVtkView::CDlgVtkView(int viewType, QWidget* parent)
     : QWidget(parent), m_ViewType(viewType)
-    //: QWidget(parent), m_ViewType(0)
 {
+    setAutoFillBackground(false);
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);

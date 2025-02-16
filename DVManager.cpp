@@ -93,8 +93,6 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
 }
 
 
-
-
 void DVManager::ResizeVtkWindow(int viewType, int width, int height)
 {
     if (viewType < 0 || viewType >= NUM_VIEW)
@@ -104,4 +102,14 @@ void DVManager::ResizeVtkWindow(int viewType, int width, int height)
     {
         m_vtkWindow[viewType]->SetSize(width, height);
     }
+}
+
+// ✅ 추가: DICOM 로더 인스턴스 반환
+vtkSmartPointer<DicomLoader> DVManager::GetDicomLoader()
+{
+    if (!m_DicomLoader) {
+        m_DicomLoader = vtkSmartPointer<DicomLoader>::New();
+    }
+
+    return m_DicomLoader;
 }

@@ -13,6 +13,7 @@
 #include <vtkCornerAnnotation.h>
 #include <vtkGenericOpenGLRenderWindow.h> 
 
+#include "DicomLoader.h"
 
 class DVManager : public QObject
 {
@@ -31,8 +32,11 @@ public:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> GetVtkWindow(int viewType);
     void InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget);
     void ResizeVtkWindow(int viewType, int width, int height);
+
+    vtkSmartPointer<DicomLoader> GetDicomLoader();
    
 
 private:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> m_vtkWindow[NUM_VIEW];
+    vtkSmartPointer<DicomLoader> m_DicomLoader;
 };

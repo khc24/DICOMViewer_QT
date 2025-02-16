@@ -115,7 +115,14 @@ qt_add_executable(DICOMViewer_QT
     ChildView.cpp
     DVManager.h
     DVManager.cpp
-    test.cpp
+    DicomLoader.h
+    DicomLoader.cpp
+    DicomGroup.h
+    DicomGroup.cpp
+    DicomGroupView.h
+    DicomGroupView.cpp
+    MainWindow.h
+    MainWindow.cpp
 )
 
 # 라이브러리 연결 (GLEW는 find_package로 가져온 타겟 사용)
