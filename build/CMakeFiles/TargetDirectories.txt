@@ -1,0 +1,4 @@
+D:/workspaces/qt/DICOMViewer_QT/build/CMakeFiles/DICOMViewer_QT.dir
+D:/workspaces/qt/DICOMViewer_QT/build/CMakeFiles/DICOMViewer_QT_qmlimportscan.dir
+D:/workspaces/qt/DICOMViewer_QT/build/CMakeFiles/ALL_BUILD.dir
+D:/workspaces/qt/DICOMViewer_QT/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\workspaces\qt\DICOMViewer_QT\build\CMakeFiles\84b9bbe922ed79bae347ee722a87c0d6\DICOMViewer_QT_build.cmake.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\workspaces\qt\DICOMViewer_QT\build\CMakeFiles\8cca3e9649bc6b5a4e6e909fe0e8a7d4\DICOMViewer_QT_qmlimportscan.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\workspaces\qt\DICOMViewer_QT\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\workspaces\qt\DICOMViewer_QT\build\CMakeFiles\DICOMViewer_QT_qmlimportscan" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{195B014D-5086-3570-96A4-D02DB4F04690}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
