@@ -34,22 +34,3 @@ CChildView::~CChildView()
     // Qt에서는 QObject 기반의 객체는 자동으로 삭제되므로 별도 delete 필요 없음.
 }
 
-// 🔹 창 크기 조정 이벤트 처리
-//void CChildView::resizeEvent(QResizeEvent* event)
-//{
-//    QWidget::resizeEvent(event);
-//     //layout->setGeometry(QRect(0, 0, width(), height()));  // 레이아웃 크기 업데이트
-//
-//    //// 🔹 현재 CChildView 크기 출력
-//    qDebug() << "CChildView 크기:" << this->size();
-//
-//    //// 🔹 QGridLayout 크기 출력
-//    qDebug() << "QGridLayout 크기:" << layout->geometry();
-//
-//    //// 🔹 각 CDlgVtkView 크기 출력
-//    for (int i = 0; i < 4; i++) {
-//        if (m_dlgVtkView[i]) {
-//            qDebug() << "CDlgVtkView[" << i << "] 크기:" << m_dlgVtkView[i]->geometry();
-//        }
-//    }
-//}

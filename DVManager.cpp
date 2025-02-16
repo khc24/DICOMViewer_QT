@@ -58,15 +58,6 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
         m_vtkWindow[viewType] = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     }
 
-    //qDebug() << "vtkWidget->interactor();" << vtkWidget->interactor();
-    
-
-    //vtkSmartPointer<vtkRenderWindowInteractor> interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    
-    
-    vtkRenderWindowInteractor* interactor22 = m_vtkWindow[viewType]->GetInteractor();
-    //qDebug() << "interactor22:" << interactor22;
-
     vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
     renderer->SetBackground(0.0, 0.0, 0.0);  // 배경색: 검정
 
@@ -74,6 +65,7 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
 
     if (viewType == VIEW_3D)
     {
+        // 수정 전 vtkGenericOpenGLRenderWindow interactor 사용으로 QVTKOpenGLNativeWidget interactor과 충돌 방생하여 vtkOutputWindow 발생
         vtkWidget->interactor()->SetInteractorStyle(vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New());
         camera->ParallelProjectionOff();
         camera->SetPosition(0.0, -1.0, 0.0);
@@ -81,6 +73,7 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
     }
     else
     {
+        // 수정 전 vtkGenericOpenGLRenderWindow interactor 사용으로 QVTKOpenGLNativeWidget interactor과 충돌 방생하여 vtkOutputWindow 발생
         vtkWidget->interactor()->SetInteractorStyle(vtkSmartPointer<vtkInteractorStyleImage>::New());
         camera->ParallelProjectionOn();
         camera->SetPosition(0.0, 0.0, -1.0);
@@ -88,7 +81,6 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
     }
 
     renderer->SetActiveCamera(camera);
-    //m_vtkWindow[viewType]->SetInteractor(interactor);
     
     m_vtkWindow[viewType]->AddRenderer(renderer);
 
@@ -98,14 +90,6 @@ void DVManager::InitVtkWindow(int viewType, QVTKOpenGLNativeWidget* vtkWidget)
     // 컨텍스트가 생성된 후에 vtkGenericOpenGLRenderWindow를 QVTKOpenGLNativeWidget에 설정합니다.
     vtkWidget->setRenderWindow(m_vtkWindow[viewType]);
 
-    HGLRC currentContext = wglGetCurrentContext();
-    qDebug() << "OpenGL 컨텍스트 상태:" << (currentContext ? "정상 생성됨" : "생성되지 않음");
-
-    const char* version = reinterpret_cast<const char*>(glGetString(GL_VERSION));
-    qDebug() << "OpenGL Version:" << version;
-
-    // VTK 내부에서 확장 함수 로드가 이루어지므로 수동 로드 코드는 제거합니다.
-    // LoadOpenGLFunctions();  // 주석 처리 또는 제거
 }
 
 

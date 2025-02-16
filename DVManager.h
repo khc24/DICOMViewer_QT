@@ -14,8 +14,6 @@
 #include <vtkGenericOpenGLRenderWindow.h> 
 
 
-
-
 class DVManager : public QObject
 {
     Q_OBJECT
