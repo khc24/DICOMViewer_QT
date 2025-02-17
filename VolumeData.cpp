@@ -140,24 +140,69 @@ vtkSmartPointer<vtkImageActor> VolumeData::GetSliceActor(int sliceType)
 
 
 
+//void VolumeData::ReadyForSliceRendering()
+//{
+//	// 슬라이스 이미지 렌더링 속성 초기화
+//	// DICOM 이미지 최대/최소 밝기값
+//	double range[2];
+//	m_ImageData->GetScalarRange(range);
+//	// Volume 인덱스 범위
+//	int ext[6];
+//	m_ImageData->GetExtent(ext);
+//
+//	// DICOM 데이터에 따라 초기 Window / Level 값을 조정
+//	m_SliceProperty = vtkSmartPointer<vtkImageProperty>::New();
+//	m_SliceProperty->SetColorLevel((range[1] + range[0]) / 2);
+//	m_SliceProperty->SetColorWindow(range[1] - range[0]);
+//
+//	// 각 슬라이스 타입에 따라 설정
+//	for (int sliceType = 0; sliceType < 3; sliceType++) {
+//		// 슬라이스 인덱스의 중간위치 계산
+//		switch (sliceType) {
+//		case AXIAL:
+//			m_SliceIndex[sliceType] = (ext[4] + ext[5]) / 2;
+//			break;
+//		case CORONAL:
+//			m_SliceIndex[sliceType] = (ext[2] + ext[3]) / 2;
+//			break;
+//		case SAGITTAL:
+//			m_SliceIndex[sliceType] = (ext[0] + ext[1]) / 2;
+//			break;
+//		}
+//
+//		// Image Reslice 생성
+//		m_VolumeSlice[sliceType] = vtkSmartPointer<vtkImageReslice>::New();
+//		m_VolumeSlice[sliceType]->SetInputData(m_ImageData);
+//		m_VolumeSlice[sliceType]->SetOutputDimensionality(2);		// 2D로 슬라이스
+//		m_VolumeSlice[sliceType]->SetResliceAxes(
+//			GetResliceMatrix(sliceType, m_SliceIndex[sliceType]));	// 슬라이스 행렬 설정
+//		m_VolumeSlice[sliceType]->Update();
+//
+//		// 이미지 Actor 생성
+//		m_SliceActor[sliceType] = vtkSmartPointer<vtkImageActor>::New();
+//		m_SliceActor[sliceType]->GetMapper()
+//			->SetInputData(m_VolumeSlice[sliceType]->GetOutput());
+//
+//		// 각 슬라이스에 공통된 이미지 속성 정의
+//		m_SliceActor[sliceType]->SetProperty(m_SliceProperty);
+//	}
+//}
+
 void VolumeData::ReadyForSliceRendering()
 {
-	// 슬라이스 이미지 렌더링 속성 초기화
 	// DICOM 이미지 최대/최소 밝기값
 	double range[2];
 	m_ImageData->GetScalarRange(range);
-	// Volume 인덱스 범위
 	int ext[6];
 	m_ImageData->GetExtent(ext);
 
-	// DICOM 데이터에 따라 초기 Window / Level 값을 조정
-	m_SliceProperty = vtkSmartPointer<vtkImageProperty>::New();
-	m_SliceProperty->SetColorLevel((range[1] + range[0]) / 2);
-	m_SliceProperty->SetColorWindow(range[1] - range[0]);
-
-	// 각 슬라이스 타입에 따라 설정
+	// 각 슬라이스 타입에 대해 별도의 vtkImageProperty 생성
 	for (int sliceType = 0; sliceType < 3; sliceType++) {
-		// 슬라이스 인덱스의 중간위치 계산
+		vtkSmartPointer<vtkImageProperty> sliceProp = vtkSmartPointer<vtkImageProperty>::New();
+		sliceProp->SetColorLevel((range[1] + range[0]) / 2);
+		sliceProp->SetColorWindow(range[1] - range[0]);
+
+		// 슬라이스 인덱스의 중간 위치 계산
 		switch (sliceType) {
 		case AXIAL:
 			m_SliceIndex[sliceType] = (ext[4] + ext[5]) / 2;
@@ -170,21 +215,17 @@ void VolumeData::ReadyForSliceRendering()
 			break;
 		}
 
-		// Image Reslice 생성
+		// Image Reslice 생성 및 업데이트
 		m_VolumeSlice[sliceType] = vtkSmartPointer<vtkImageReslice>::New();
 		m_VolumeSlice[sliceType]->SetInputData(m_ImageData);
-		m_VolumeSlice[sliceType]->SetOutputDimensionality(2);		// 2D로 슬라이스
-		m_VolumeSlice[sliceType]->SetResliceAxes(
-			GetResliceMatrix(sliceType, m_SliceIndex[sliceType]));	// 슬라이스 행렬 설정
+		m_VolumeSlice[sliceType]->SetOutputDimensionality(2);
+		m_VolumeSlice[sliceType]->SetResliceAxes(GetResliceMatrix(sliceType, m_SliceIndex[sliceType]));
 		m_VolumeSlice[sliceType]->Update();
 
-		// 이미지 Actor 생성
+		// 슬라이스 액터 생성 및 개별 vtkImageProperty 적용
 		m_SliceActor[sliceType] = vtkSmartPointer<vtkImageActor>::New();
-		m_SliceActor[sliceType]->GetMapper()
-			->SetInputData(m_VolumeSlice[sliceType]->GetOutput());
-
-		// 각 슬라이스에 공통된 이미지 속성 정의
-		m_SliceActor[sliceType]->SetProperty(m_SliceProperty);
+		m_SliceActor[sliceType]->GetMapper()->SetInputData(m_VolumeSlice[sliceType]->GetOutput());
+		m_SliceActor[sliceType]->SetProperty(sliceProp);
 	}
 }
 

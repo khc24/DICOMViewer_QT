@@ -30,4 +30,8 @@ private:
     QAction* m_actionToggleDicomGroupView;
     QAction* m_actionOpenDicomFolder;
     QComboBox* m_comboVolumeRenderMode;
+
+public:
+    CChildView* GetWndView() { return m_childView; }
+
 };

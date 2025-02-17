@@ -59,9 +59,9 @@ void MainWindow::createToolBar()
 
     // 볼륨 렌더 모드 콤보박스 추가 (MFC의 콤보 박스와 유사)
     m_comboVolumeRenderMode = new QComboBox(this);
-    m_comboVolumeRenderMode->addItem(tr("Mode 0"));
-    m_comboVolumeRenderMode->addItem(tr("Mode 1"));
-    m_comboVolumeRenderMode->addItem(tr("Mode 2"));
+    m_comboVolumeRenderMode->addItem(tr("MIP"));
+    m_comboVolumeRenderMode->addItem(tr("Skin"));
+    m_comboVolumeRenderMode->addItem(tr("Bone"));
     connect(m_comboVolumeRenderMode, QOverload<int>::of(&QComboBox::activated),
         this, &MainWindow::changeVolumeRenderMode);
     toolBar->addWidget(m_comboVolumeRenderMode);
@@ -95,5 +95,5 @@ void MainWindow::openDicomFolder()
 void MainWindow::changeVolumeRenderMode(int index)
 {
     // DVManager를 통해 볼륨 렌더 모드 변경 (해당 함수는 DVManager에 구현되어야 함)
-    //DVManager::Mgr()->ChangeVolumeRenderMode(index);
+    DVManager::Mgr()->ChangeVolumeRenderMode(index);
 }

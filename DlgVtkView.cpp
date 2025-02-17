@@ -21,6 +21,8 @@ CDlgVtkView::CDlgVtkView(int viewType, QWidget* parent)
     {
         m_ScrollBar = new QScrollBar(Qt::Horizontal, this);
         layout->addWidget(m_ScrollBar);
+
+        connect(m_ScrollBar, &QScrollBar::valueChanged, this, &CDlgVtkView::onScrollBarValueChanged);
     }
 
     setLayout(layout);
@@ -73,4 +75,41 @@ void CDlgVtkView::keyPressEvent(QKeyEvent* event)
     {
         QWidget::keyPressEvent(event);
     }
+}
+
+void CDlgVtkView::onScrollBarValueChanged(int value)
+{
+    // DVManager의 ScrollSliceIndex 함수를 호출하여 슬라이스 인덱스를 업데이트합니다.
+    DVManager::Mgr()->ScrollSliceIndex(m_ViewType, value);
+}
+
+void CDlgVtkView::UpdateScrollBar()
+{
+    qDebug() << "UpdateScrollBar : 1";
+    if (!m_ScrollBar)
+        return;
+
+    qDebug() << "UpdateScrollBar : 2";
+    // Volume 데이터 가져오기
+    vtkSmartPointer<VolumeData> volumeData = DVManager::Mgr()->GetDicomLoader()->GetVolumeData();
+    if (!volumeData)
+        return;
+
+    qDebug() << "UpdateScrollBar : 3";
+    int ext[6];
+    volumeData->GetImageData()->GetExtent(ext);
+
+    // 뷰 타입에 따라 범위 설정 (예: VIEW_AXIAL이면 ext[4] ~ ext[5])
+    if (m_ViewType == DVManager::VIEW_AXIAL)
+        m_ScrollBar->setRange(ext[4], ext[5]);
+    else if (m_ViewType == DVManager::VIEW_CORONAL)
+        m_ScrollBar->setRange(ext[2], ext[3]);
+    else if (m_ViewType == DVManager::VIEW_SAGITTAL)
+        m_ScrollBar->setRange(ext[0], ext[1]);
+
+
+    qDebug() << "m_ViewType = " << m_ViewType << "volumeData->GetSliceIndex(m_ViewType)=" <<
+        volumeData->GetSliceIndex(m_ViewType);
+    // 현재 슬라이스 인덱스로 설정
+    m_ScrollBar->setValue(volumeData->GetSliceIndex(m_ViewType));
 }

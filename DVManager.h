@@ -46,9 +46,21 @@ public:
 
     /// Volume 데이터 렌더링 업데이트 (3D와 2D 슬라이스 각각)
     void UpdateVolumeDisplay();
+
+    void ScrollSliceIndex(int viewType, int pos);
+
+    // 새로 추가: Volume 렌더링 모드 변경 함수 선언
+    void ChangeVolumeRenderMode(int renderMode);
+
+    // 정보 표시 업데이트 관련 함수들 (UpdateAnnotation, UpdateSliceAnnotation)
+    void UpdateAnnotation();
+    void UpdateSliceAnnotation(int viewType);
    
 
 private:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> m_vtkWindow[NUM_VIEW];
     vtkSmartPointer<DicomLoader> m_DicomLoader;
+    /// 정보 표시
+    vtkSmartPointer<vtkCornerAnnotation> m_Annotation[NUM_VIEW];
+
 };

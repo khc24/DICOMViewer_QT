@@ -34,3 +34,9 @@ CChildView::~CChildView()
     // Qt에서는 QObject 기반의 객체는 자동으로 삭제되므로 별도 delete 필요 없음.
 }
 
+CDlgVtkView* CChildView::GetDlgVtkView(int viewType)
+{
+    if (viewType < 0 || viewType >= 4)
+        return nullptr;
+    return m_dlgVtkView[viewType];
+}

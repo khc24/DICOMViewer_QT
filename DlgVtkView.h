@@ -19,6 +19,9 @@ public:
     void setViewType(int val) { m_ViewType = val; }
     void setBackgroundColor(const QColor& color);
 
+    /// Volume 데이터가 로드되면 각 Slice별 인덱스 범위에 따라 스크롤바 업데이트
+    void UpdateScrollBar();
+
 
 private:
     int m_ViewType;  // 이 Widget의 View Type
@@ -30,5 +33,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
 
+private slots:
+    void onScrollBarValueChanged(int value);
 
 };

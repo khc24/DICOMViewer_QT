@@ -19,4 +19,7 @@ public:
 private:
     CDlgVtkView* m_dlgVtkView[4];  // 🔹 4개의 VTK 뷰 저장
     QGridLayout* layout;  // 🔹 2x2 레이아웃 관리
+
+public:
+    CDlgVtkView* GetDlgVtkView(int viewType);
 };
