@@ -11,7 +11,7 @@ Visual Studio 2022에서 개발되었으며, 의료 영상 데이터를 효율�
 ---
 
 ## 🎥 시연 동영상
-[YOUTUBE](https://www.youtube.com/D572N3zalUU)
+[YOUTUBE](https://youtu.be/D572N3zalUU)
 
 ## 🛠️ 사용 기술 및 라이브러리 
 - **언어**: C++  
