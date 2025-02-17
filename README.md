@@ -1,7 +1,7 @@
 # DICOM Viewer_QT (VTK 9.4 & GDCM 3.0.24 & QT6.8.0)
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/khc24/DICOMViewer_QT/master/res/dicomviewerqt.gif" alt="GIF 설명">
+  <img src="https://raw.githubusercontent.com/khc24/DICOMViewer_QT/master/dicomviewerqt.gif" alt="GIF 설명">
 </div>
 
 ## 📌 프로젝트 개요
