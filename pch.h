@@ -25,7 +25,7 @@
 
 // VTK 모듈 초기화
 #include <vtkAutoInit.h>
-//VTK_MODULE_INIT(vtkRenderingOpenGL2);
-//VTK_MODULE_INIT(vtkRenderingContextOpenGL2);
-//VTK_MODULE_INIT(vtkRenderingVolumeOpenGL2);
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkRenderingContextOpenGL2);
+VTK_MODULE_INIT(vtkRenderingVolumeOpenGL2);
 //VTK_MODULE_INIT(vtkRenderingOpenGL3);

@@ -123,6 +123,8 @@ qt_add_executable(DICOMViewer_QT
     DicomGroupView.cpp
     MainWindow.h
     MainWindow.cpp
+    VolumeData.h
+    VolumeData.cpp
 )
 
 # 라이브러리 연결 (GLEW는 find_package로 가져온 타겟 사용)

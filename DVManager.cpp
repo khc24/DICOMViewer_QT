@@ -113,3 +113,78 @@ vtkSmartPointer<DicomLoader> DVManager::GetDicomLoader()
 
     return m_DicomLoader;
 }
+
+vtkSmartPointer<vtkRenderer> DVManager::GetRenderer(int viewType)
+{
+    if (viewType < 0 || viewType >= NUM_VIEW)
+        return nullptr;
+    if (m_vtkWindow[viewType] == nullptr)
+        return nullptr;
+    return m_vtkWindow[viewType]->GetRenderers()->GetFirstRenderer();
+}
+
+void DVManager::OnSelectDicomGroup(vtkSmartPointer<DicomGroup> group)
+{
+    // 현재 화면 초기화
+    ClearVolumeDisplay();
+
+    // 선택한 DICOM Group에서 Volume 데이터 로드
+    GetDicomLoader()->LoadVolumeData(group);
+
+    // Volume 데이터가 로드되었으면 렌더링 업데이트
+    UpdateVolumeDisplay();
+}
+
+void DVManager::ClearVolumeDisplay()
+{
+    vtkSmartPointer<DicomLoader> loader = GetDicomLoader();
+    vtkSmartPointer<VolumeData> volumeData = loader->GetVolumeData();
+    if (!volumeData)
+        return;
+
+    // 3D 뷰에서 Volume 렌더링 제거
+    vtkSmartPointer<vtkRenderer> renderer3D = GetRenderer(VIEW_3D);
+    if (renderer3D)
+        renderer3D->RemoveViewProp(volumeData->GetVolumeRendering());
+
+    // 2D 슬라이스 뷰에서 각 슬라이스 Actor 제거
+    for (int viewType = VIEW_AXIAL; viewType <= VIEW_SAGITTAL; viewType++) {
+        vtkSmartPointer<vtkRenderer> renderer = GetRenderer(viewType);
+        if (renderer)
+            renderer->RemoveActor(volumeData->GetSliceActor(viewType));
+    }
+}
+
+void DVManager::UpdateVolumeDisplay()
+{
+    vtkSmartPointer<DicomLoader> loader = GetDicomLoader();
+    vtkSmartPointer<VolumeData> volumeData = loader->GetVolumeData();
+    if (!volumeData)
+    {
+        qDebug() << "❌ Volume 데이터가 없습니다.";
+        return;
+    }
+        
+    qDebug() << "✅ Volume 데이터 렌더링 시작";
+
+    // 3D 뷰에 Volume 렌더링 추가 및 카메라 재설정
+    vtkSmartPointer<vtkRenderer> renderer3D = GetRenderer(VIEW_3D);
+    if (renderer3D) {
+        renderer3D->AddViewProp(volumeData->GetVolumeRendering());
+        renderer3D->ResetCamera();
+        m_vtkWindow[VIEW_3D]->Render();
+    }
+    else {
+        qDebug() << "❌ 3D 렌더러 없음";
+    }
+
+    // 2D 슬라이스 뷰에 각 슬라이스 Actor 추가 및 카메라 재설정
+    for (int viewType = VIEW_AXIAL; viewType <= VIEW_SAGITTAL; viewType++) {
+        vtkSmartPointer<vtkRenderer> renderer = GetRenderer(viewType);
+        if (renderer) {
+            renderer->AddActor(volumeData->GetSliceActor(viewType));
+            renderer->ResetCamera();
+            m_vtkWindow[viewType]->Render();
+        }
+    }
+}

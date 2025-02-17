@@ -34,6 +34,18 @@ public:
     void ResizeVtkWindow(int viewType, int width, int height);
 
     vtkSmartPointer<DicomLoader> GetDicomLoader();
+
+   /// View 타입에 따른 첫 번째 Renderer 반환
+    vtkSmartPointer<vtkRenderer> GetRenderer(int viewType);
+
+    /// DICOM Group 선택 시, Volume 데이터 로드 및 렌더링 업데이트
+    void OnSelectDicomGroup(vtkSmartPointer<DicomGroup> group);
+
+    /// 현재 그려진 슬라이스와 Volume 제거
+    void ClearVolumeDisplay();
+
+    /// Volume 데이터 렌더링 업데이트 (3D와 2D 슬라이스 각각)
+    void UpdateVolumeDisplay();
    
 
 private:

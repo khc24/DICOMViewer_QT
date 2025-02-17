@@ -25,6 +25,10 @@ protected:
     /// ✅ Qt 이벤트 처리 (MFC `OnSize()` 대체)
     void resizeEvent(QResizeEvent* event) override;
 
+private slots:
+    /// ✅ 트리에서 볼륨 노드를 더블 클릭했을 때 실행될 슬롯
+    void OnTreeItemDoubleClicked(QTreeWidgetItem* item, int column);
+
 private:
     /// ✅ DICOM 그룹 트리 (외부 접근 불가능하도록 `private` 지정)
     QTreeWidget* m_DicomGroupTree;

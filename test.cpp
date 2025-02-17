@@ -70,3 +70,39 @@
 //
 //    return 0;
 //}
+
+#include "pch.h"
+#include <vtkVersion.h>
+#include <vtkObjectFactory.h>
+#include <QDebug>
+
+void CheckVTKModules()
+{
+    vtkObject* obj = vtkObjectFactory::CreateInstance("vtkSmartVolumeMapper");
+    if (obj)
+    {
+        qDebug() << "✅ RenderingVolumeOpenGL2 모듈이 정상적으로 로드되었습니다.";
+        obj->Delete();
+    }
+    else
+    {
+        qDebug() << "❌ RenderingVolumeOpenGL2 모듈이 누락되었습니다! CMake 설정을 확인하세요.";
+    }
+}
+
+#include <QApplication>
+#include "MainWindow.h"
+
+void CheckVTKModules(); // 선언
+
+//int main(int argc, char* argv[])
+//{
+//    QApplication app(argc, argv);
+//
+//    CheckVTKModules(); // ✅ VTK 모듈 확인 실행
+//
+//    MainWindow mainWin;
+//    mainWin.show();
+//
+//    return app.exec();
+//}

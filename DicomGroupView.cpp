@@ -19,6 +19,10 @@ DicomGroupView::DicomGroupView(QWidget* parent)
     QWidget* container = new QWidget;
     container->setLayout(layout);
     setWidget(container);
+
+    // ✅ 트리 항목 더블 클릭 이벤트와 슬롯 연결
+    connect(m_DicomGroupTree, &QTreeWidget::itemDoubleClicked,
+        this, &DicomGroupView::OnTreeItemDoubleClicked);
 }
 
 DicomGroupView::~DicomGroupView() {}
@@ -30,6 +34,26 @@ void DicomGroupView::resizeEvent(QResizeEvent* event)
     if (m_DicomGroupTree) {
         m_DicomGroupTree->resize(event->size());
     }
+}
+
+/// ✅ 트리에서 볼륨 노드를 더블 클릭했을 때 실행되는 함수
+void DicomGroupView::OnTreeItemDoubleClicked(QTreeWidgetItem* item, int column)
+{
+    Q_UNUSED(column); // 사용되지 않는 매개변수 (경고 방지)
+
+    if (!item) return; // 선택된 항목이 없으면 종료
+
+    // ✅ QTreeWidgetItem에 저장된 DICOM Group 포인터 가져오기
+    QVariant data = item->data(0, Qt::UserRole);
+    if (!data.isValid()) return; // 저장된 데이터가 유효하지 않으면 종료
+
+    DicomGroup* group = static_cast<DicomGroup*>(data.value<void*>());
+    if (!group) return; // 포인터가 NULL이면 종료
+
+    qDebug() << "DICOM 그룹 선택됨: " << QString::fromStdString(group->GetPatientID());
+
+    // ✅ DICOM 그룹 선택 처리 (DVManager에서 해당 데이터 로드 및 렌더링 수행)
+    DVManager::Mgr()->OnSelectDicomGroup(group);
 }
 
 /// ✅ DICOM 트리 업데이트 (MFC `UpdateDicomTree()` 변환)

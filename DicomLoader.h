@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #include "DicomGroup.h"
+#include "VolumeData.h"
 
 class DicomLoader : public vtkObject
 {
@@ -26,6 +27,12 @@ protected:
     /// DICOM 그룹 목록
     std::vector<vtkSmartPointer<DicomGroup>> m_GroupList;
 
+    /// 현재 선택된 DICOM Group
+    vtkSmartPointer<DicomGroup> m_CurrentGroup;
+
+    /// 현재 선택된 Volume 데이터
+    vtkSmartPointer<VolumeData> m_VolumeData;
+
 public:
 
     bool IsDicomFile(const QString& filePath);
@@ -41,4 +48,15 @@ public:
 
     /// 특정 DICOM 그룹 반환
     vtkSmartPointer<DicomGroup> GetDicomGroup(int idx);
+
+    /// 현재 선택된 DICOM Group
+    vtkSmartPointer<DicomGroup> GetCurrentGroup() const { return m_CurrentGroup; }
+
+    /// Volume 데이터
+    vtkSmartPointer<VolumeData> GetVolumeData() const { return m_VolumeData; }
+
+    /// DICOM 그룹에서 Volume 데이터 로드
+    void LoadVolumeData(vtkSmartPointer<DicomGroup> dicomGroup);
+
+
 };
